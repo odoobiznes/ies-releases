@@ -1,4 +1,38 @@
 {
-  "generated_at": "2026-04-24T14:50:00Z",
-  "services": {}
+  "generated_at": "2026-04-24T13:20:25Z",
+  "note": "Initial seed. No actual tagged releases yet \u2014 run make_release.sh per service to publish first tarballs.",
+  "services": {
+    "forms-doks": {
+      "repo": "odoobiznes/FormsDoks",
+      "stable": "0.1.0"
+    },
+    "ies-agent-manager": {
+      "repo": "odoobiznes/IesAgentManager",
+      "stable": "0.1.0"
+    },
+    "iesocr-worker": {
+      "repo": "odoobiznes/iesocr-worker",
+      "stable": "0.1.0"
+    },
+    "pohoda-api": {
+      "repo": "odoobiznes/PohodaAPI",
+      "stable": "0.1.0"
+    },
+    "pohoda-api-gateway": {
+      "repo": "odoobiznes/PohodaApiGateway",
+      "stable": "0.1.0"
+    },
+    "pohoda-digi": {
+      "repo": "odoobiznes/PohodaDigi",
+      "stable": "0.1.0"
+    },
+    "pohoda-kontrola": {
+      "repo": "odoobiznes/PohodaKontrola",
+      "stable": "0.1.0"
+    },
+    "pohoda-xml-agent": {
+      "repo": "odoobiznes/PohodaXmlAgent",
+      "stable": "0.1.0"
+    }
+  }
 }
