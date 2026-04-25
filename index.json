@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-25T19:21:12Z",
+  "generated_at": "2026-04-25T19:21:18.049031Z",
   "services": {
     "forms-doks": {
       "repo": "odoobiznes/FormsDoks",
@@ -11,7 +11,7 @@
     },
     "iesocr-worker": {
       "repo": "odoobiznes/iesocr-worker",
-      "stable": "0.1.0"
+      "stable": "0.1.1"
     },
     "pohoda-api": {
       "repo": "odoobiznes/PohodaAPI",
