@@ -84,15 +84,22 @@ def fetch_index() -> dict:
 
 
 def installed_services() -> list:
-    """Inspect /opt and C:\\Apps for installed.json files (where ies-updater wrote them)."""
+    """Inspect /opt and C:\\Apps for installed.json files (where ies-updater wrote them).
+    Permission errors on individual entries are silently skipped — dashboard runs as
+    a low-priv user and many service install dirs are owned by their own service user."""
     out = []
     for base in DEFAULT_INSTALL_BASES:
-        for p in base.iterdir():
-            inst = p / "installed.json"
-            if not inst.exists(): continue
+        try:
+            entries = list(base.iterdir())
+        except (PermissionError, OSError):
+            continue
+        for p in entries:
             try:
+                inst = p / "installed.json"
+                if not inst.is_file(): continue
                 d = json.loads(inst.read_text())
-                snaps = list((p / "releases").glob("*.tgz")) if (p / "releases").exists() else []
+                rel_dir = p / "releases"
+                snaps = list(rel_dir.glob("*.tgz")) if rel_dir.is_dir() else []
                 out.append({
                     "install_dir": str(p),
                     "service": p.name,
@@ -100,8 +107,8 @@ def installed_services() -> list:
                     "updated_at": d.get("updated_at"),
                     "rollback_count": len(snaps),
                 })
-            except Exception:
-                pass
+            except (PermissionError, OSError, json.JSONDecodeError):
+                continue
     return out
 
 
