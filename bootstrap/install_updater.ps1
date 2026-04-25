@@ -43,11 +43,11 @@ New-Item -ItemType Directory -Force -Path $IES, $LogD | Out-Null
 
 # 3) fetch updater.py
 Step "4/6" "fetch updater.py + config template"
-$updaterUrl = "$RAW/iesocr-worker/master/ies-updater/updater.py"
+$updaterUrl = "$RAW/ies-releases/master/ies-updater/updater.py"
 try {
     Invoke-WebRequest -UseBasicParsing -Uri $updaterUrl -OutFile "$IES\updater.py"
 } catch {
-    $updaterUrl = "$RAW/iesocr-worker/main/ies-updater/updater.py"
+    $updaterUrl = "$RAW/ies-releases/main/ies-updater/updater.py"
     Invoke-WebRequest -UseBasicParsing -Uri $updaterUrl -OutFile "$IES\updater.py"
 }
 

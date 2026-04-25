@@ -38,8 +38,8 @@ chown $USER:$USER $ROOT
 
 log "4/6 fetch updater.py + systemd unit"
 # updater.py lives in iesocr-worker repo (same updater code is generic across services)
-curl -sSL "$RAW/iesocr-worker/master/ies-updater/updater.py" -o $ROOT/updater.py 2>/dev/null \
-    || curl -sSL "$RAW/iesocr-worker/main/ies-updater/updater.py" -o $ROOT/updater.py 2>/dev/null \
+curl -sSL "$RAW/ies-releases/master/ies-updater/updater.py" -o $ROOT/updater.py 2>/dev/null \
+    || curl -sSL "$RAW/ies-releases/main/ies-updater/updater.py" -o $ROOT/updater.py 2>/dev/null \
     || { echo "ERROR: cannot fetch updater.py"; exit 1; }
 
 cat >/etc/systemd/system/ies-updater.service <<'EOF'

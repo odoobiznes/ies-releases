@@ -1,0 +1,29 @@
+# ies-updater config — copy to /opt/ies-updater/config.yml or
+# C:\ProgramData\ies-updater\config.yml and edit.
+
+poll_interval_sec: 900        # 15 min
+http_timeout_sec: 60
+keep_versions: 3              # snapshots kept per service for rollback
+
+release_index: https://raw.githubusercontent.com/odoobiznes/ies-releases/master/index.json
+
+# Optional telemetry — lets us see which customer runs what.
+telemetry_url: https://collab.it-enterprise.pro/api/v2/update-reports
+telemetry_enabled: true
+
+# What this host is subscribed to.
+#   channel: "stable" (default) or "beta" (opt-in canary)
+#   install_dir: where service lives; must exist
+subscriptions:
+  pohoda-digi:
+    channel: stable
+    install_dir: /opt/pohoda-digi       # Linux
+    # install_dir: C:\Apps\PohodaDigi   # Windows
+
+  pohoda-api:
+    channel: stable
+    install_dir: /opt/pohoda-api
+
+  iesocr-worker:
+    channel: beta
+    install_dir: /opt/iesocr

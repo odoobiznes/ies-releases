@@ -1,0 +1,31 @@
+# systemd unit — /etc/systemd/system/ies-updater.service
+# Install:   sudo cp ies-updater.service /etc/systemd/system/ && sudo systemctl daemon-reload
+# Enable:    sudo systemctl enable --now ies-updater.service
+# Logs:      journalctl -u ies-updater -f
+
+[Unit]
+Description=IES self-update daemon
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Run as unprivileged user that has sudo NOPASSWD only for systemctl start/stop of subscribed services.
+User=ies-updater
+Group=ies-updater
+Environment="PYTHONUNBUFFERED=1"
+ExecStart=/opt/ies-updater/venv/bin/python /opt/ies-updater/updater.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+# Tight-ish sandboxing.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/opt/ies-updater /opt/pohoda-digi /opt/pohoda-api /opt/iesocr /var/log/ies
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target
