@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-24T13:20:25Z",
+  "generated_at": "2026-04-25T18:40:08Z",
   "note": "Initial seed. No actual tagged releases yet \u2014 run make_release.sh per service to publish first tarballs.",
   "services": {
     "forms-doks": {
@@ -8,6 +8,9 @@
     },
     "ies-agent-manager": {
       "repo": "odoobiznes/IesAgentManager",
+      "stable": "0.1.0"
+    },
+    "iesagentmanager": {
       "stable": "0.1.0"
     },
     "iesocr-worker": {
