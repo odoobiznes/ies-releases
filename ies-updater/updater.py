@@ -61,6 +61,7 @@ class Subscription:
     service: str
     channel: str
     install_dir: Path
+    pinned_version: Optional[str] = None      # if set, only this exact version is installed
 
 
 @dataclasses.dataclass
@@ -80,7 +81,8 @@ def load_config() -> Config:
             raw = yaml.safe_load(c.read_text())
             subs = [
                 Subscription(service=k, channel=v["channel"],
-                             install_dir=Path(v["install_dir"]))
+                             install_dir=Path(v["install_dir"]),
+                             pinned_version=v.get("pinned_version"))
                 for k, v in raw.get("subscriptions", {}).items()
             ]
             return Config(
@@ -293,13 +295,18 @@ def tick(cfg: Config) -> None:
 
     for sub in cfg.subscriptions:
         try:
-            want = idx.get("services", {}).get(sub.service, {}).get(sub.channel)
-            if not want:
+            channel_ver = idx.get("services", {}).get(sub.service, {}).get(sub.channel)
+            if not channel_ver:
                 log.warning("service %s/%s not in index", sub.service, sub.channel)
                 continue
+            # If pinned, only install that exact version. Channel still serves as fallback.
+            want = sub.pinned_version or channel_ver
             have = read_installed_version(sub.install_dir)
             if have == want:
                 continue
+            if sub.pinned_version and sub.pinned_version != channel_ver:
+                log.info("pinned: %s @ %s (channel %s = %s)",
+                         sub.service, sub.pinned_version, sub.channel, channel_ver)
             log.info("update available: %s %s → %s", sub.service, have, want)
 
             tarball, sha = fetch_release(sub.service, want, ".tar.gz",
